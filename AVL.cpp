@@ -283,12 +283,12 @@ NO* removerArvore(NO* no, int valor) {
             free(no);
             return aux;
         }
-		else if (no->esq == NULL && no->dir == NULL) {
-			free(no);
-			return NULL;
-		}
+	else if (no->esq == NULL && no->dir == NULL) {
+		free(no);
+		return NULL;
+	}
         
-		NO* aux = pegarMenorValor(no->dir);
+	NO* aux = pegarMenorValor(no->dir);
         no->valor = aux->valor;
         no->dir = removerArvore(no->dir, aux->valor);
 
