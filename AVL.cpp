@@ -31,6 +31,7 @@ int   elementosArvore(NO* no);
 void  exibirElementosArvore(NO* no, int espaco, bool direita);
 void  buscarElementoArvore(NO* no, int valor);
 NO* removerArvore(NO* no, int valor);
+NO* pegarMenorValor(NO* no);
 
 // Funções auxiliares de balanceamento
 int   alturaNo(NO* no);
@@ -269,7 +270,28 @@ NO* removerArvore(NO* no, int valor) {
         no->dir = removerArvore(no->dir, valor);
     }
     else {
-                
+
+        if (no->esq != NULL && no->dir == NULL) {
+            NO* aux = no->esq;
+            
+            free(no);
+            return aux;
+        }
+        else if (no->dir != NULL && no->esq == NULL) {
+            NO* aux = no->dir;
+
+            free(no);
+            return aux;
+        }
+		else if (no->esq == NULL && no->dir == NULL) {
+			free(no);
+			return NULL;
+		}
+        
+		NO* aux = pegarMenorValor(no->dir);
+        no->valor = aux->valor;
+        no->dir = removerArvore(no->dir, aux->valor);
+
         // Caso 1: Nó sem filhos
         // Se o nó não possui filhos (esquerda e direita são NULL), basta removê-lo e retornar NULL para o pai.
 
@@ -335,4 +357,9 @@ void buscarElementoArvore(NO* no, int valor) {
         buscarElementoArvore(no->esq, valor);
     else
         buscarElementoArvore(no->dir, valor);
+}
+
+NO* pegarMenorValor(NO* no) {
+    while (no != NULL && no->esq != NULL) no = no->esq;
+    return no;
 }
